@@ -2,6 +2,7 @@ import App, {Container} from 'next/app'
 import React from 'react'
 import  initializeStore  from '../models/index';
 import { Provider } from 'mobx-react'
+import Head from 'next/head'
 import "./styles/_app.less";
 
 
@@ -32,9 +33,16 @@ class MyApp extends App {
     render() {
         const { Component, ComponentInitProps={} } = this.props;
         return (
-            <Provider {...this.mobxStore}>
-                <Component {...ComponentInitProps}/>
-            </Provider>
+            <>
+                <Head>
+                    <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                </Head>
+                <Provider {...this.mobxStore}>
+                    <Component {...ComponentInitProps}/>
+                </Provider>
+            </>
+
         )
     }
 }
