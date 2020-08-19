@@ -3,15 +3,33 @@ const withCSS = require('@zeit/next-css');
 const withLess = require('@zeit/next-less');
 const withPlugins = require('next-compose-plugins');
 const logger = require("./tool_server/logger")(__filename);
-const BuildHash = '202008131400';
+const path = require('path');
 
 const stylePlugins = [
-  [
+  [ 
     withCSS,
+    {
+      cssModules: false,
+      cssLoaderOptions: {
+        importLoaders: 1,
+        minimize:true,
+        // localIdentName: "[local]___[hash:base64:5]",
+      }
+    }
   ],
   [
-    withLess,
+    /** 
+     * The stylesheet is compiled to .next/static/css
+     * 如果开启cssModule 会导致ant-design-mobile 样式匹配结果错乱；所以需要关闭
+    */
+    withLess,  
     {
+      cssModules:false, //http://www.ruanyifeng.com/blog/2016/06/css_modules.html CSS Modules 用法教程
+      cssLoaderOptions:{
+        importLoaders: 1,
+        minimize:true,
+        // localIdentName: "[local]___[hash:base64:5]", //localIdentName  CSS-Module 定制哈希类名
+      },
       lessLoaderOptions: {
         javascriptEnabled: true,
       },
