@@ -37,6 +37,7 @@ class MyApp extends App {
                 <Head>
                     <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
                     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                    {/* <link href="https://cdnjs.cloudflare.com/ajax/libs/antd-mobile/2.3.3/antd-mobile.min.css" rel="stylesheet" type="text/css" />  */}
                 </Head>
                 <Provider {...this.mobxStore}>
                     <Component {...ComponentInitProps}/>
