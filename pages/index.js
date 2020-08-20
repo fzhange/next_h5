@@ -2,6 +2,8 @@ import React from 'react';
 import {invoke_post,Loading} from "../common/index";
 import "./styles/index.less"
 import { Picker } from 'antd-mobile';
+// import {PoiList} from "@ctrip/gs_online_ui"
+
 
 
 
@@ -59,6 +61,7 @@ export default class extends React.Component {
         // console.log(antdDistrict);
         return (
             <div>
+                {/* <PoiList type={2} id={14} source="flight" ENV="UAT"/> */}
                 <Picker title="选择地区" extra="请选择(可选)" data={antdDistrict} value={this.state.pickerValue} onChange={v => this.setState({ pickerValue: v })}
                     onOk={this.onOk.bind(this)}
                 >
