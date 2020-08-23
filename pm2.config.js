@@ -13,8 +13,8 @@ module.exports = {
         error_file: path.join(__dirname,'./logs/error.log'), // 错误日志路径
         merge_logs: true,
         log_date_format: 'YYYY-MM-DD HH:mm:ss',
-        instances:"1", //负载均衡   根据机器CPU核数，开启对应数目的进程运行项目
-        exec_mode : "cluster"
+        // instances:"1", //负载均衡   根据机器CPU核数，开启对应数目的进程运行项目
+        // exec_mode : "cluster"
     }]
 }
 
