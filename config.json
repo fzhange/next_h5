@@ -1,3 +1,4 @@
 {
-    "baseUrl":"/next_h5"
+    "baseUrl":"/next_h5",
+    "PORT":3000
 }

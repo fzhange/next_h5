@@ -1,15 +1,16 @@
 require("@babel/polyfill");
 
+const {baseUrl,PORT} = require("./config.json");
 const express = require('express')
 const next = require('next')
-const port = parseInt(process.env.PORT, 10) || 8080
+const port = parseInt(process.env.PORT, 10) || PORT
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev })
 const handle = app.getRequestHandler();
 const bodyParser = require('body-parser');
 const logger = require("./tool_server/logger")(__filename);
 const {getIPAddress} = require("./tool_server/tools");
-const {baseUrl} = require("./config.json");
+
 
 logger.info('process.env.NODE_ENV : ', process.env.NODE_ENV);
 
