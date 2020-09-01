@@ -2,10 +2,6 @@ import React from 'react';
 import {invoke_post,Loading} from "../common/index";
 import "./styles/index.less"
 import { Picker } from 'antd-mobile';
-// import {PoiList} from "@ctrip/gs_online_ui"
-
-
-
 
 
 const CustomChildren = props => (
@@ -17,7 +13,7 @@ const CustomChildren = props => (
     </div>
 );
 
-
+// http://10.38.53.5:8080/next_h5/_next/webpack-hmr?page=/
 export default class extends React.Component {
     constructor(props){
         super(props);
@@ -58,10 +54,8 @@ export default class extends React.Component {
             });
             antdDistrict.push(itemLevel1)
         });
-        // console.log(antdDistrict);
         return (
             <div>
-                {/* <PoiList type={2} id={14} source="flight" ENV="UAT"/> */}
                 <Picker title="选择地区" extra="请选择(可选)" data={antdDistrict} value={this.state.pickerValue} onChange={v => this.setState({ pickerValue: v })}
                     onOk={this.onOk.bind(this)}
                 >

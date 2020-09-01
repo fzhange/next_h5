@@ -4,6 +4,7 @@ const withLess = require('@zeit/next-less');
 const withPlugins = require('next-compose-plugins');
 const logger = require("./tool_server/logger")(__filename);
 const path = require('path');
+const {baseUrl} = require("./config.json");
 
 const stylePlugins = [
   [ 
@@ -37,6 +38,15 @@ const stylePlugins = [
   ]
 ]
 const config = {
+  assetPrefix: baseUrl,
+  async rewrites() {
+    return [
+      {
+        source: `${baseUrl}/:slug*`,
+        destination: '/:slug*',
+      },
+    ]
+  },
   webpack: (config, { isServer }) => {
     if (isServer) {
       const antStyles = /antd-mobile\/.*?\/style.*?/
