@@ -22,13 +22,12 @@ app.prepare()
     const server = express()
     server.use(bodyParser.urlencoded({ extended: true }));
     server.use(bodyParser.json());
-
-    server.get(`${baseUrl}(/*)?`, (req, res) => {
+    
+    server.get(`*`, (req, res) => {
       if(req.path == baseUrl)  res.redirect(301, `${baseUrl}/index`);
       return handle(req, res)
     })
-  
-    
+        
     const LOCAL_IP = getIPAddress();
     server.listen(port, (err) => {
       if (err) throw err
