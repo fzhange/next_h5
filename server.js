@@ -9,12 +9,11 @@ const app = next({ dev })
 const handle = app.getRequestHandler();
 const bodyParser = require('body-parser');
 const logger = require("./tool_server/logger")(__filename);
+const path = require('path');
 const {getIPAddress} = require("./tool_server/tools");
 
 
 logger.info('process.env.NODE_ENV : ', process.env.NODE_ENV);
-
-
 
 
 app.prepare()
@@ -22,6 +21,7 @@ app.prepare()
     const server = express()
     server.use(bodyParser.urlencoded({ extended: true }));
     server.use(bodyParser.json());
+    server.use(express.static(path.join(__dirname,"static")));
     
     server.get(`*`, (req, res) => {
       if(req.path == baseUrl)  res.redirect(301, `${baseUrl}/index`);

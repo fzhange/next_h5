@@ -23,7 +23,7 @@ export default class extends React.Component {
     render(){
         return (
             <div onClick={this.setSession.bind(this)}>
-               index render
+               test render
             </div>
         )
     }
