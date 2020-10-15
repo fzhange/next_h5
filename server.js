@@ -22,7 +22,9 @@ app.prepare()
     server.use(bodyParser.urlencoded({ extended: true }));
     server.use(bodyParser.json());
     server.use(express.static(path.join(__dirname,"static")));
-    
+    server.get('/healthyCheck',function(req,res){
+      res.send('healthy');
+    })
     server.get(`*`, (req, res) => {
       if(req.path == baseUrl)  res.redirect(301, `${baseUrl}/index`);
       return handle(req, res)

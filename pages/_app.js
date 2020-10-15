@@ -1,9 +1,9 @@
-import App, {Container} from 'next/app'
+import App from 'next/app'
 import React from 'react'
 import  initializeStore  from '../models/index';
 import { Provider } from 'mobx-react'
 import Head from 'next/head'
-import "./styles/_app.less";
+import "./_app.less";
 
 
 
@@ -36,8 +36,7 @@ class MyApp extends App {
             <>
                 <Head>
                     <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-                    {/* <link href="https://cdnjs.cloudflare.com/ajax/libs/antd-mobile/2.3.3/antd-mobile.min.css" rel="stylesheet" type="text/css" />  */}
+                    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0,viewport-fit=cover" />
                 </Head>
                 <Provider {...this.mobxStore}>
                     <Component {...ComponentInitProps}/>
