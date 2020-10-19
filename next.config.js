@@ -1,10 +1,14 @@
 //用于 Next 启动服务已经构建阶段，但是不作用于浏览器端。
 const withCSS = require('@zeit/next-css');
 const withLess = require('@zeit/next-less');
+const withSourceMaps = require('@zeit/next-source-maps')
 const withPlugins = require('next-compose-plugins');
+const SentryCliPlugin = require('@sentry/webpack-plugin')
+const webpack = require('webpack');
 const logger = require("./tool_server/logger")(__filename);
 const {baseUrl} = require("./config.json");
 const ENV = process.env.NODE_ENV;
+const {SENTRY_URL_PREFIX} = require('./config.json');
 
 logger.info('process.env.NODE_ENV : ', ENV);
 
@@ -38,10 +42,15 @@ const stylePlugins = [
         javascriptEnabled: true,
       },
     }
+  ],[
+    withSourceMaps
   ]
 ]
 const config = {
   assetPrefix: ENV == "production" ? baseUrl : "",
+  env:{ 
+    NEXT_PUBLIC_API:"fzhange_prefix_4",
+  },
   async rewrites() {
     return [
       {
@@ -50,7 +59,8 @@ const config = {
       },
     ]
   },
-  webpack: (config, { isServer }) => {
+  webpack: (config, { isServer,buildId }) => {
+    logger.info('buildId: ', buildId);
     if (isServer) {
       const antStyles = /antd-mobile\/.*?\/style.*?/
       const origExternals = [...config.externals]
@@ -70,10 +80,24 @@ const config = {
         test: antStyles,
         use: 'null-loader',
       })
+      if(ENV == "production"){
+        config.plugins.push(
+          new SentryCliPlugin({
+            include: ['.next'], // 上传的文件夹，next项目传.next文件夹就行
+            ignore: ['node_modules', 'next.config.js'], // 忽略的文件
+            configFile: '.sentryclirc', // 上传相关的配置文件
+            release: 'fzhange_prefix_4',           // 版本号
+            urlPrefix: SENTRY_URL_PREFIX,        // 最关键的，相对路径
+          })
+        )
+      }
+    }else{
+      config.resolve.alias['@sentry/node'] = '@sentry/browser'
     }
     return config
   },
 }
 
-module.exports = withPlugins(stylePlugins,config)
+
+module.exports = withPlugins(stylePlugins,config);
 

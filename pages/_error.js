@@ -1,5 +1,11 @@
 import React from 'react'
-export default function Name(){
+import * as Sentry from '@sentry/node';
+
+function ServerError({ statusCode, err }){
+    if (err) {
+        console.log('ServerError-----err: ', err);
+        Sentry.captureException(err);     // This will work on both client and server sides in production.
+    }
     return (
         <>
             <style jsx>{`
@@ -22,3 +28,9 @@ export default function Name(){
         </>
     )
 }
+
+// ServerError.getInitialProps = async function({ res, err }){
+//     console.log('ServerError>>>>>>>>>err: ', err);
+// } 
+
+export default ServerError;

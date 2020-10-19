@@ -1,0 +1,8 @@
+
+[defaults]
+url = https://sentry.io/
+org = fzhange_com
+project = nodejs
+
+[auth]
+token = 9d223911ea714853a647c63c79436153d18807db1b3c40afbf9e45457dc58de3
