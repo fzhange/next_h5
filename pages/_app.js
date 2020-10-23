@@ -14,7 +14,7 @@ const isProd = ENV == 'production';
 if(isProd){
     Sentry.init({ 
         dsn,
-        release:process.env.NEXT_PUBLIC_API, 
+        release:process.env.RELEASE_ID,
     });
 }
 
@@ -41,7 +41,7 @@ class MyApp extends App {
             };   
         }catch(error){
             console.error('_app > getInitialProps > error: ', error);
-            Sentry.captureException(error);
+            isProd && Sentry.captureException(error);
             return {}
         }
     }

@@ -2,5 +2,6 @@
     "baseUrl":"/next_h5",
     "PORT":5389,
     "dsn":"https://21cb9790be1545f195743a18c77f37d8@o461905.ingest.sentry.io/5464621",
-    "SENTRY_URL_PREFIX":"~/next_h5/_next"
+    "SENTRY_URL_PREFIX":"~/next_h5/_next",
+    "RELEASE_ID" : "202010231040"
 }

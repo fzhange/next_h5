@@ -33,7 +33,8 @@ app.prepare()
       res.send('healthy');
     })
     server.get(`*`, (req, res) => {
-      if(req.path == baseUrl)  res.redirect(301, `${baseUrl}/index`);
+      console.log('req.path>>>>>>>>>: ', req.path);
+      // if(req.path == baseUrl)  res.redirect(301, `${baseUrl}/index`);
       return handle(req, res)
     })
     

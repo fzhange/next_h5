@@ -4,11 +4,10 @@ const withLess = require('@zeit/next-less');
 const withSourceMaps = require('@zeit/next-source-maps')
 const withPlugins = require('next-compose-plugins');
 const SentryCliPlugin = require('@sentry/webpack-plugin')
-const webpack = require('webpack');
 const logger = require("./tool_server/logger")(__filename);
 const {baseUrl} = require("./config.json");
 const ENV = process.env.NODE_ENV;
-const {SENTRY_URL_PREFIX} = require('./config.json');
+const {SENTRY_URL_PREFIX,RELEASE_ID} = require('./config.json');
 
 logger.info('process.env.NODE_ENV : ', ENV);
 
@@ -47,18 +46,20 @@ const stylePlugins = [
   ]
 ]
 const config = {
-  assetPrefix: ENV == "production" ? baseUrl : "",
+  basePath:baseUrl,
+  // assetPrefix: ENV == "production" ? baseUrl : "",
+  // async rewrites() {
+  //   return [
+  //     {
+  //       source: `${baseUrl}/:slug*`,
+  //       destination: '/:slug*',
+  //     },
+  //   ]
+  // },
   env:{ 
-    NEXT_PUBLIC_API:"fzhange_prefix_4",
+    RELEASE_ID:RELEASE_ID,
   },
-  async rewrites() {
-    return [
-      {
-        source: `${baseUrl}/:slug*`,
-        destination: '/:slug*',
-      },
-    ]
-  },
+
   webpack: (config, { isServer,buildId }) => {
     logger.info('buildId: ', buildId);
     if (isServer) {
@@ -86,7 +87,7 @@ const config = {
             include: ['.next'], // 上传的文件夹，next项目传.next文件夹就行
             ignore: ['node_modules', 'next.config.js'], // 忽略的文件
             configFile: '.sentryclirc', // 上传相关的配置文件
-            release: 'fzhange_prefix_4',           // 版本号
+            release: RELEASE_ID,           // 版本号
             urlPrefix: SENTRY_URL_PREFIX,        // 最关键的，相对路径
           })
         )
