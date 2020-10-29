@@ -23,7 +23,7 @@ class MyApp extends App {
     static async getInitialProps({req,res,router,Component}) {
         try{
             let ComponentInitProps = {};
-        
+
             let initializeStoreObj = initializeStore({
                 testStore:{ count:2 },
                 syncServerDataStore:{
@@ -65,28 +65,35 @@ class MyApp extends App {
                 </Provider>
                 <script dangerouslySetInnerHTML={{
                     __html:`
-                    if(process.env.NODE_ENV == 'production') {
+                        window.__sentry_quque__ = [];
                         window.addEventListener('error',function(event){
                             event.stopPropagation();
                             event.stopImmediatePropagation();
                             let netLoadEleWhiteList = ['SCRIPT']
                             let {tagName,src} =  event.srcElement
                             if(netLoadEleWhiteList.includes(tagName)){
-                                console.error('******文件加载异常，进行错误上报******');
-                                console.table({ tagName,src })
-                                const error = new Error('静态资源加载失败---' + JSON.stringify({ tagName,src }));
-                                Sentry.withScope(function(scope) {
-                                    scope.setLevel('warning');
-                                    Sentry.captureException(error);
-                                });
+                                window.__sentry_quque__.push(()=>{
+                                    console.error('******文件加载异常，进行错误上报******');
+                                    console.table({ tagName,src })
+                                    const error = new Error('静态资源加载失败---' + JSON.stringify({ tagName,src }));
+                                    Sentry.withScope(function(scope) {
+                                        scope.setLevel('warning');
+                                        Sentry.captureException(error);
+                                    });
+                                })
                             }
                         },true)
-                    }
+                        setTimeout(()=>{
+                            if(__NEXT_MOBX_STORE__.syncServerDataStore.env == 'production') {
+                                window.__sentry_quque__.forEach((errorFunction)=>{
+                                    errorFunction();
+                                })  
+                            }
+                        },3000)  
                     `
                 }}>
                 </script>
             </>
-
         )
     }
 }

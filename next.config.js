@@ -5,9 +5,12 @@ const withSourceMaps = require('@zeit/next-source-maps')
 const withPlugins = require('next-compose-plugins');
 const SentryCliPlugin = require('@sentry/webpack-plugin')
 const logger = require("./tool_server/logger")(__filename);
-const {baseUrl} = require("./config.json");
 const ENV = process.env.NODE_ENV;
-const {SENTRY_URL_PREFIX,RELEASE_ID} = require('./config.json');
+const {SENTRY_URL_PREFIX,RELEASE_ID,baseUrl,PORT} = require('./config.json');
+const {getIPAddress} = require("./tool_server/tools");
+const LOCAL_IP = getIPAddress();
+const port = parseInt(process.env.PORT, 10) || PORT
+
 
 logger.info('process.env.NODE_ENV : ', ENV);
 
@@ -46,8 +49,11 @@ const stylePlugins = [
   ]
 ]
 const config = {
+  experimental: {
+    css: false,
+  },
   basePath:baseUrl,
-  // assetPrefix: ENV == "production" ? baseUrl : "",
+  assetPrefix: `http://${LOCAL_IP}:${port}${baseUrl}`,
   // async rewrites() {
   //   return [
   //     {

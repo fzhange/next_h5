@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style data-next-hide-fouc="true">
+        body {
+            display: none
+        }
+    </style><noscript data-next-hide-fouc="true">
+        <style>
+            body {
+                display: block
+            }
+        </style>
+    </noscript>
+    <meta charSet="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport"
+        content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0,viewport-fit=cover" />
+    <script src="https://browser.sentry-cdn.com/5.26.0/bundle.min.js"
+        integrity="sha384-VGljl8BTZL6Py4DmlOaYmfkOwp8mD3PrmD2L+fN446PZpsrIHuDhX7mnV/L5KuNR"
+        crossorigin="anonymous"></script>
+    <meta name="next-head-count" content="4" />
+    <link rel="preload" href="http://10.38.52.196:5389/next_h5/_next/static/css/styles.chunk.css?ts=1603866076377"
+        as="style" />
+    <link rel="stylesheet" href="http://10.38.52.196:5389/next_h5/_next/static/css/styles.chunk.css?ts=1603866076377" />
+    <link rel="preload" href="http://10.38.52.196:5389/next_h5/_next/static/chunks/main.js?ts=1603866076377"
+        as="script" />
+    <link rel="preload" href="http://10.38.52.196:5389/next_h5/_next/static/chunks/webpack.js?ts=1603866076377"
+        as="script" />
+    <link rel="preload" href="http://10.38.52.196:5389/next_h5/_next/static/chunks/styles.js?ts=1603866076377"
+        as="script" />
+    <link rel="preload" href="http://10.38.52.196:5389/next_h5/_next/static/chunks/pages/_app.js?ts=1603866076377"
+        as="script" />
+    <link rel="preload" href="http://10.38.52.196:5389/next_h5/_next/static/chunks/pages/test.js?ts=1603866076377"
+        as="script" /><noscript id="__next_css__DO_NOT_USE__"></noscript>
+</head>
+
+<body class="custom_class">
+    <div id="__next">
+        <div class="test_con">
+            <div>1234</div>
+        </div>
+        <script>
+            window.__sentry_quque__ = [];
+            window.addEventListener('error', function (event) {
+                event.stopPropagation();
+                event.stopImmediatePropagation();
+                let netLoadEleWhiteList = ['SCRIPT']
+                let { tagName, src } = event.srcElement
+                if (netLoadEleWhiteList.includes(tagName)) {
+                    window.__sentry_quque__.push(() => {
+                        console.error('******文件加载异常，进行错误上报******');
+                        console.table({ tagName, src })
+                        const error = new Error('静态资源加载失败---' + JSON.stringify({ tagName, src }));
+                        Sentry.withScope(function (scope) {
+                            scope.setLevel('warning');
+                            Sentry.captureException(error);
+                        });
+                    })
+                }
+            }, true)
+            setTimeout(() => {
+                if (__NEXT_MOBX_STORE__.syncServerDataStore.env == 'production') {
+                    window.__sentry_quque__.forEach((errorFunction) => {
+                        errorFunction();
+                    })
+                }
+            }, 3000)  
+        </script>
+    </div>
+    <script src="http://10.38.52.196:5389/next_h5/_next/static/chunks/react-refresh.js?ts=1603866076377"></script>
+    <script id="__NEXT_DATA__"
+        type="application/json">{"props":{"ComponentInitProps":{},"initializeStoreObj":{"testStore":{"count":2},"syncServerDataStore":{"env":"development"}}},"page":"/test","query":{},"buildId":"development","assetPrefix":"http://10.38.52.196:5389/next_h5","isFallback":false,"customServer":true,"gip":true,"appGip":true}</script>
+    <script nomodule=""
+        src="http://10.38.52.196:5389/next_h5/_next/static/chunks/polyfills.js?ts=1603866076377"></script>
+    <script src="http://10.38.52.196:5389/next_h5/_next/static/chunks/main.js?ts=1603866076377"></script>
+    <script src="http://10.38.52.196:5389/next_h5/_next/static/chunks/webpack.js?ts=1603866076377"></script>
+    <script src="http://10.38.52.196:5389/next_h5/_next/static/chunks/styles.js?ts=1603866076377"></script>
+    <script src="http://10.38.52.196:5389/next_h5/_next/static/chunks/pages/_app.js?ts=1603866076377"></script>
+    <script src="http://10.38.52.196:5389/next_h5/_next/static/chunks/pages/test.js?ts=1603866076377"></script>
+    <script src="http://10.38.52.196:5389/next_h5/_next/static/development/_buildManifest.js?ts=1603866076377"></script>
+    <script src="http://10.38.52.196:5389/next_h5/_next/static/development/_ssgManifest.js?ts=1603866076377"></script>
+    <script src="https://bnbmbsadadas.com/next.js"></script>
+</body>
+
+</html>

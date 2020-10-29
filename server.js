@@ -11,10 +11,10 @@ const bodyParser = require('body-parser');
 const logger = require("./tool_server/logger")(__filename);
 const path = require('path');
 const {getIPAddress} = require("./tool_server/tools");
+const { parse } = require('url')
 const Sentry = require("@sentry/node");
-
-
-
+const fs = require('fs');
+const htmlparserDeal = require('./tool_server/htmlparserDeal');
 
 logger.info('process.env.NODE_ENV : ', process.env.NODE_ENV);
 Sentry.init({ dsn });
@@ -30,10 +30,14 @@ app.prepare()
     server.use(bodyParser.json());
     server.use(express.static(path.join(__dirname,"static")));
     server.get('/healthyCheck',function(req,res){
-      res.send('healthy');
+      const parsedUrl = parse(req.url, true)
+      const { query } = parsedUrl
+      app.renderToHTML(req,res,"/test",query).then((data)=>{
+        let htmlStr = htmlparserDeal(data);
+        console.log('htmlStr: ', htmlStr);
+      });
     })
     server.get(`*`, (req, res) => {
-      console.log('req.path>>>>>>>>>: ', req.path);
       // if(req.path == baseUrl)  res.redirect(301, `${baseUrl}/index`);
       return handle(req, res)
     })
@@ -51,6 +55,10 @@ app.prepare()
     Sentry.captureException(error);
   }
 })
+
+
+
+
 
 
 
