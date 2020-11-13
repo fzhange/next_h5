@@ -8,6 +8,7 @@ const logger = require("./tool_server/logger")(__filename);
 const ENV = process.env.NODE_ENV;
 const {SENTRY_URL_PREFIX,RELEASE_ID,baseUrl,PORT} = require('./config.json');
 const {getIPAddress} = require("./tool_server/tools");
+const { default: Server } = require('next/dist/next-server/server/next-server');
 const LOCAL_IP = getIPAddress();
 const port = parseInt(process.env.PORT, 10) || PORT
 
@@ -41,7 +42,9 @@ const stylePlugins = [
         // localIdentName: "[local]___[hash:base64:5]", //localIdentName  CSS-Module 定制哈希类名
       },
       lessLoaderOptions: {
-        javascriptEnabled: true,
+        lessOptions:{
+          javascriptEnabled: true,
+        }
       },
     }
   ],[
@@ -65,15 +68,23 @@ const config = {
   env:{ 
     RELEASE_ID:RELEASE_ID,
   },
+  generateBuildId: async () => {
+    return RELEASE_ID
+  },
 
-  webpack: (config, { isServer,buildId }) => {
+  webpack: (config, {dev,isServer,buildId }) => {
+    console.log('dev: ', dev);
+    console.log('isServer: ', isServer);
     logger.info('buildId: ', buildId);
     if (isServer) {
       const antStyles = /antd-mobile\/.*?\/style.*?/
+      // const flowSakura =/flow_sakura_ui(\/.*)*\/*\.css/;
+      const flowSakura = /flow_sakura_ui/
       const origExternals = [...config.externals]
       config.externals = [
         (context, request, callback) => {
           if (request.match(antStyles)) return callback()
+          if (request.match(flowSakura)) return callback()
 
           if (typeof origExternals[0] === 'function') {
             origExternals[0](context, request, callback)
@@ -87,19 +98,40 @@ const config = {
         test: antStyles,
         use: 'null-loader',
       })
-      if(ENV == "production"){
-        config.plugins.push(
-          new SentryCliPlugin({
-            include: ['.next'], // 上传的文件夹，next项目传.next文件夹就行
-            ignore: ['node_modules', 'next.config.js'], // 忽略的文件
-            configFile: '.sentryclirc', // 上传相关的配置文件
-            release: RELEASE_ID,           // 版本号
-            urlPrefix: SENTRY_URL_PREFIX,        // 最关键的，相对路径
-          })
-        )
-      }
+      // if(!dev){
+      //   config.plugins.push(
+      //     new SentryCliPlugin({
+      //       include: ['.next'], // 上传的文件夹，next项目传.next文件夹就行
+      //       ignore: ['node_modules', 'next.config.js'], // 忽略的文件
+      //       configFile: '.sentryclirc', // 上传相关的配置文件
+      //       release: RELEASE_ID,           // 版本号
+      //       urlPrefix: SENTRY_URL_PREFIX,  // 最关键的，相对路径
+      //     })
+      //   )
+      // }
     }else{
       config.resolve.alias['@sentry/node'] = '@sentry/browser'
+    }
+
+    if(!dev){ //客户端 生产环境 代码分离处理
+      if(!isServer){
+        // config
+        config.optimization.splitChunks = {
+          cacheGroups:{
+            framework:{
+              name: 'framework',
+              chunks: 'all',
+              test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/, //匹配库当中的react和react-dom
+              priority: 40, //权重为40 最大权重
+            }
+          },
+          lib:{
+            test(module) {
+              console.log('module: ', JSON.stringify(module));
+            }
+          }
+        }
+      }
     }
     return config
   },

@@ -1,5 +1,13 @@
 import React from 'react';
-import {Lazyload,InfiniteScroll,Swiper} from "components";
+// import {InfiniteScroll,Swiper,Button} from "components";
+// import LazyLoad from 'react-lazyload';
+import {Head} from "flow_sakura_ui";
+import LazyLoad from "components/Lazyload";
+import LinesEllipsis from 'react-lines-ellipsis'
+import responsiveHOC from 'react-lines-ellipsis/lib/responsiveHOC'
+const ResponsiveEllipsis = responsiveHOC()(LinesEllipsis)
+
+
 
 
 import "./index.less";
@@ -40,10 +48,19 @@ export default class Index extends React.Component{
     }
 
     render(){
+        let bestTime = 'The March to May spring and September to November autumn are warm, cozy, and good for being outdoors. Bringing along a light jacket is advisable due to the huge morning and night temperature difference. July to August are relatively warmer, and the beaches are particularly popular; do bring along something to prevent the burns. Come winter in November to March, the weather would be noticeably colder and snowstorms or blizzards are frequent, and therefore outdoors activities are inadvisable. The December climate is really cold and it is strongly suggested that you bring along winter clothing.'
         return (
             <>
                 <h1 onClick={this.doClick.bind(this)}>this click will error</h1>
                 <div>this is index page</div>
+                {/* <img src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2102578530,3462366934&fm=26&gp=0.jpg"></img> */}
+                <Head></Head>
+                <LazyLoad src='https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2102578530,3462366934&fm=26&gp=0.jpg' />
+                <ResponsiveEllipsis   text={bestTime}  maxLine='2'></ResponsiveEllipsis>
+                {/* <Button type="primary" size="small" inline>small</Button> */}
+                {/* <LazyLoad height={200}>
+                    <img src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2102578530,3462366934&fm=26&gp=0.jpg" /> 
+                </LazyLoad> */}
             </>
         )
     }

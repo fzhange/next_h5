@@ -39,7 +39,7 @@ export const Loading = {
     hide() {
         if (!isServer) {
             let divEle = document.querySelector('.div_loading_con');
-            if (!!divEle) document.body.removeChild(divEle);
+            if (divEle) document.body.removeChild(divEle);
         }
     }
 }
@@ -55,7 +55,7 @@ export const checkStatus = async response => {
 }
 function dealToken(result) {
     let { token = '', status, data } = result;//status 响应状态(0:失败 1:成功  2:未登录c)
-    if (!!data.token) token = data.token;
+    if (data.token) token = data.token;
 
     switch (status) {
         case 0: {

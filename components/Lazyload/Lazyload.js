@@ -37,5 +37,5 @@ Lazyload.defaultProps = {
 Lazyload.propTypes = {
     styles: PropTypes.object, //自定义图片样式
     src: PropTypes.string.isRequired, //图片链接
-    load_errror_img_src: PropTypes.string.isRequired, //加载错误图片链接
+    load_errror_img_src: PropTypes.string, //加载错误图片链接
 }

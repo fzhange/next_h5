@@ -80,3 +80,4 @@ web/.next
 
 # Serverless directories
 .serverless
+styleguide
