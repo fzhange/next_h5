@@ -56,7 +56,7 @@ export default class Index extends React.Component{
                 {/* <img src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2102578530,3462366934&fm=26&gp=0.jpg"></img> */}
                 <Head></Head>
                 <LazyLoad src='https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2102578530,3462366934&fm=26&gp=0.jpg' />
-                <ResponsiveEllipsis   text={bestTime}  maxLine='2'></ResponsiveEllipsis>
+                <ResponsiveEllipsis  style={{ whiteSpace: 'pre-wrap' }}   text={bestTime}  maxLine='2'></ResponsiveEllipsis>
                 {/* <Button type="primary" size="small" inline>small</Button> */}
                 {/* <LazyLoad height={200}>
                     <img src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2102578530,3462366934&fm=26&gp=0.jpg" /> 
